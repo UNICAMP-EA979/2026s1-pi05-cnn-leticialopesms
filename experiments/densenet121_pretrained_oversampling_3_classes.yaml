@@ -1,0 +1,32 @@
+experiment_name: "FullDermaMNIST_Densenet121_pretrained_oversampling_3_classes"
+model_name: "densenet121"
+weights: "IMAGENET1K_V1"
+oversampling: true
+image_size: 224
+max_epochs: 100
+batch_size: 32
+nworkers: 4
+labels: [1, 4]
+nout: 3
+nin: 3
+lr: 0.0001  # 1e-4
+wd: 0.00001 # 1e-5
+cpu: false
+
+transforms:
+  train:
+    - RandomHorizontalFlip: {p: 0.5}
+    - RandomVerticalFlip: {p: 0.5}
+    - RandomRotation: {degrees: 30}
+    - ColorJitter: {brightness: 0.2, contrast: 0.2}
+    - ToTensor: {}
+    - ConvertImageDtype: {dtype: float}
+    - Normalize: {mean: [0.485, 0.456, 0.406], std: [0.229, 0.224, 0.225]}
+  val:
+    - ToTensor: {}
+    - ConvertImageDtype: {dtype: float}
+    - Normalize: {mean: [0.485, 0.456, 0.406], std: [0.229, 0.224, 0.225]}
+  test:
+    - ToTensor: {}
+    - ConvertImageDtype: {dtype: float}
+    - Normalize: {mean: [0.485, 0.456, 0.406], std: [0.229, 0.224, 0.225]}
